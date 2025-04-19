@@ -1,17 +1,9 @@
 const express = require("express");
+const { connectDB } = require("./config/database.js");
 
 const app = express();
 const { adminAuth, userAuth } = require("./middlewares/auth.middleware.js");
 
-// app.use("/admin", adminAuth);
-// app.use("/user", userAuth);
-
-// app.get("/user/data", (req, res, next) => {
-//   res.send("user data ");
-// });
-// app.get("/admin/data", (req, res, next) => {
-//   res.send("admin data ");
-// });
 app.get("/user", (req, res) => {
   try {
     throw new Error("user not found");
@@ -20,6 +12,15 @@ app.get("/user", (req, res) => {
   }
 });
 
-app.listen(3000, () => {
-  console.log("server is running on port 3000...");
-});
+const startServer = async () => {
+  try {
+    await connectDB();
+    app.listen(3000, () => {
+      console.log("Server is running on port 3000...");
+    });
+  } catch (err) {
+    console.error("Failed to connect to the database:", err);
+  }
+};
+
+startServer();
