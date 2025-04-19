@@ -1,14 +1,26 @@
 const express = require("express");
 const { connectDB } = require("./config/database.js");
+const User = require("./models/userSchema.js");
 
 const app = express();
-const { adminAuth, userAuth } = require("./middlewares/auth.middleware.js");
+// app.use(express.json());
 
-app.get("/user", (req, res) => {
+app.post("/signup", async (req, res) => {
   try {
-    throw new Error("user not found");
+    const user = new User({
+      firstName: "sherazz",
+      lastName: "arif",
+      email: "sherazarifofficialll@gmail.com",
+      password: "sheraz12333",
+      age: 25,
+      gender: "male",
+    });
+
+    await user.save();
+    res.send("User created successfully");
   } catch (error) {
-    res.send("semthing went wrong");
+    console.error("Error creating user:", error);
+    res.status(500).send("Error creating user");
   }
 });
 
