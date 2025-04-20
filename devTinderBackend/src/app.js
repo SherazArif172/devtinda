@@ -14,7 +14,7 @@ app.post("/signup", async (req, res) => {
     console.log("user created successfully");
   } catch (error) {
     console.error("Error creating user:", error.message);
-    res.status(500).send("Error creating user");
+    res.status(500).send(error.message);
   }
 });
 
@@ -92,7 +92,7 @@ app.patch("/signup/:id", async (req, res) => {
     console.log(user);
   } catch (error) {
     console.error("Error updating user:", error.message);
-    res.status(500).send("Error updating user");
+    res.status(500).send(error.message);
   }
 });
 

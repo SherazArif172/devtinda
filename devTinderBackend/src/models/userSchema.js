@@ -1,24 +1,30 @@
 const mongoose = require("mongoose");
+const validator = require("validator");
 
 const userSchema = new mongoose.Schema(
   {
     firstName: {
       type: String,
-      required: true,
+      required: [true, "First name is required"],
     },
     lastName: {
       type: String,
     },
     email: {
       type: String,
-      unique: true,
-      required: true,
+      unique: [true, "Email already exists"],
+      required: [true, "Email is required"],
       trim: true,
       lowercase: true,
+      validate(value) {
+        if (!validator.isEmail(value)) {
+          throw new Error("Email is not valid");
+        }
+      },
     },
     password: {
       type: String,
-      required: true,
+      required: [true, "Password is required"],
       minlength: 6,
     },
     age: {
@@ -41,7 +47,12 @@ const userSchema = new mongoose.Schema(
     photoUrl: {
       type: String,
       default:
-        "https://plus.unsplash.com/premium_photo-1664474619075-644dd191935f?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW1hZ2V8ZW58MHx8MHx8fDA%3D",
+        "https://plus.unsplash.com/premium_photo-1664474619075-?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW1hZ2V8ZW58MHx8MHx8fDA%3D",
+      validate(value) {
+        if (!validator.isURL(value)) {
+          throw new Error("invalid photo url");
+        }
+      },
     },
     skills: {
       type: [String],
