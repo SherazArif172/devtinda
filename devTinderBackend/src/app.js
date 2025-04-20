@@ -57,14 +57,43 @@ app.delete("/signup/:id", async (req, res) => {
 
 //update the user by id
 
-app.patch("/signup", async (req, res) => {
+app.patch("/signup/:id", async (req, res) => {
+  const data = req.body;
+  const id = req.params?.id;
+
   try {
-    const user = await User.findByIdAndUpdate(req.body.id, req.body, {
+    // Validate the request body
+    const ALLOWED_KEYS = [
+      "lastName",
+      "password",
+      "age",
+      "about",
+      "gender",
+      "skills",
+    ];
+
+    const isUpdateAllowed = Object.keys(data).every((k) =>
+      ALLOWED_KEYS.includes(k)
+    );
+
+    if (!isUpdateAllowed) {
+      return res.status(400).send("Invalid update keys");
+    }
+
+    if (data.skills.length > 10) {
+      return res.status(400).send("skills should be less than 10");
+    }
+
+    const user = await User.findByIdAndUpdate(id, data, {
       returnDocument: "after",
+      runValidators: true,
     });
     res.send("user updated successfully");
     console.log(user);
-  } catch (error) {}
+  } catch (error) {
+    console.error("Error updating user:", error.message);
+    res.status(500).send("Error updating user");
+  }
 });
 
 //server and db configration
