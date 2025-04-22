@@ -26,6 +26,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "Password is required"],
       minlength: 6,
+      validate(value) {
+        if (!validator.isStrongPassword(value)) {
+          throw new Error("Password must be strong");
+        }
+      },
     },
     age: {
       type: Number,
@@ -62,6 +67,10 @@ const userSchema = new mongoose.Schema(
         },
         message: "You can add a maximum of 10 skills.",
       },
+    },
+    isdeleted: {
+      type: Boolean,
+      default: false,
     },
   },
   {
