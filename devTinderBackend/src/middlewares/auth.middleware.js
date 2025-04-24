@@ -1,5 +1,5 @@
-const jwt = require("jsonwebtoken");
-const User = require("../models/userSchema.js");
+import jwt from "jsonwebtoken";
+import User from "../models/userSchema.js";
 
 const userAuth = async (req, res, next) => {
   const { token } = req.cookies;
@@ -8,9 +8,9 @@ const userAuth = async (req, res, next) => {
   }
 
   const decoding = await jwt.verify(token, "sherazarifofficial@gmail.com");
-  console.log(decoding);
+  console.log(decoding.id);
 
-  const user = await User.findById(decoding);
+  const user = await User.findById(decoding.id);
   console.log(user);
 
   if (!user) {
@@ -20,7 +20,4 @@ const userAuth = async (req, res, next) => {
   req.user = user;
   next();
 };
-
-module.exports = {
-  userAuth,
-};
+export default userAuth;

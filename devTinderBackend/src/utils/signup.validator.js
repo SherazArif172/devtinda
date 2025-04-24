@@ -1,4 +1,4 @@
-const validator = require("validator");
+import validator from "validator";
 
 const signupVlidator = (req) => {
   const { firstName, lastName, email, password } = req.body;
@@ -11,4 +11,4 @@ const signupVlidator = (req) => {
   }
 };
 
-module.exports = { signupVlidator };
+export default signupVlidator;
