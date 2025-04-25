@@ -68,10 +68,6 @@ const userSchema = new mongoose.Schema(
         message: "You can add a maximum of 10 skills.",
       },
     },
-    isdeleted: {
-      type: Boolean,
-      default: false,
-    },
   },
   {
     timestamps: true,

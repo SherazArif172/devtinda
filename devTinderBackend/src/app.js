@@ -7,7 +7,9 @@ app.use(express.json());
 app.use(cookieParser());
 
 import authRouter from "./router/auth.router.js";
+import profileRouter from "./router/profile.router.js";
 app.use("/", authRouter);
+app.use("/", profileRouter);
 
 //server and db configration
 const startServer = async () => {

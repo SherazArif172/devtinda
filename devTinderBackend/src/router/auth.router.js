@@ -1,5 +1,5 @@
 import express from "express";
-import signupVlidator from "../utils/signup.validator.js";
+import { signupVlidator } from "../utils/signup.validator.js";
 import userAuth from "../middlewares/auth.middleware.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -50,6 +50,10 @@ authRouter.post("/login", async (req, res) => {
       { expiresIn: "1h" }
     );
 
+    if (!encodedToken) {
+      throw new Error("tken is expired");
+    }
+
     res.cookie("token", encodedToken, {
       expires: new Date(Date.now() + 8 * 3600000),
     });
@@ -64,10 +68,17 @@ authRouter.post("/login", async (req, res) => {
 authRouter.get("/profile", userAuth, async (req, res) => {
   try {
     const user = req.user;
-
-    res.send(user);
   } catch (error) {
     console.error("Error creating user:", error.message);
+    res.status(500).send(error.message);
+  }
+});
+
+authRouter.post("/logout", userAuth, async (req, res) => {
+  try {
+    res.clearCookie("token");
+    res.send("user logged out successfully");
+  } catch (error) {
     res.status(500).send(error.message);
   }
 });
