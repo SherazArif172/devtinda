@@ -8,8 +8,12 @@ app.use(cookieParser());
 
 import authRouter from "./router/auth.router.js";
 import profileRouter from "./router/profile.router.js";
+import connectionsRouter from "./router/connections.router.js";
+import userRouter from "./router/user.router.js";
 app.use("/", authRouter);
 app.use("/", profileRouter);
+app.use("/", connectionsRouter);
+app.use("/", userRouter);
 
 //server and db configration
 const startServer = async () => {
