@@ -1,6 +1,7 @@
 import express from "express";
 import userAuth from "../middlewares/auth.middleware.js";
 import connectionRequestSchema from "../models/connectionSchema.js";
+import User from "../models/userSchema.js";
 
 const userRouter = express.Router();
 
@@ -59,6 +60,48 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
     console.error(error);
     res.status(500).json({
       message: "error while fetching the the connections",
+    });
+  }
+});
+
+userRouter.get("/feed", userAuth, async (req, res) => {
+  try {
+    const loggedinUser = req.user;
+    const page = req.query.page || 1;
+    let limit = req.query.limit || 10;
+    limit > 50 ? 50 : limit;
+
+    const skip = (page - 1) * 10;
+
+    console.log(page, limit);
+
+    const connectionRequests = await connectionRequestSchema
+      .find({
+        $or: [{ fromUserId: loggedinUser._id }, { toUserId: loggedinUser._id }],
+      })
+      .select("fromUserId toUserId");
+
+    const hideUsersFromFeed = new Set();
+
+    connectionRequests.forEach((req) => {
+      hideUsersFromFeed.add(req.fromUserId.toString());
+      hideUsersFromFeed.add(req.toUserId.toString());
+    });
+
+    const users = await User.find({
+      $and: [
+        { _id: { $nin: Array.from(hideUsersFromFeed) } },
+        { id: { $ne: loggedinUser._id } },
+      ],
+    })
+      .select(USER_DATA)
+      .skip(skip)
+      .limit(limit);
+
+    res.send(users);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
     });
   }
 });

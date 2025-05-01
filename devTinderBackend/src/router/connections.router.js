@@ -65,9 +65,6 @@ connectionsRouter.post(
       const logedinUserId = req.user._id;
       const { status, requestId } = req.params;
 
-      console.log(status);
-      console.log(requestId);
-
       const allowedStatus = ["accepted", "rejected"];
       if (!allowedStatus.includes(status)) {
         return res.status(400).json({ message: "invalid status" });
