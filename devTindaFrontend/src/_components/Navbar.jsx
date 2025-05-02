@@ -5,7 +5,7 @@ const Navbar = () => {
   return (
     <div className="navbar bg-base-300 shadow-sm">
       <div className="flex-1">
-        <a className=" text-xl">daisyUI</a>
+        <a className=" text-xl">👨🏻‍💻 daisyUI</a>
       </div>
       <div className="flex-none">
         <UserRound />
