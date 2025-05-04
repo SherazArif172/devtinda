@@ -2,6 +2,10 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import loginSchema from "../validation/login";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useLoginMutation } from "../redux/auth/authApiSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { setCredentials } from "../redux/auth/authslice";
 
 const Login = () => {
   const {
@@ -12,7 +16,26 @@ const Login = () => {
     resolver: zodResolver(loginSchema),
   });
 
-  const onsubmit = (data) => console.log(data);
+  const [login, { isLoading }] = useLoginMutation();
+  const dispatch = useDispatch();
+
+  const onsubmit = async (data) => {
+    try {
+      console.log(data);
+
+      const response = await login(data).unwrap();
+      console.log(response);
+      if (response?.user) {
+        dispatch(setCredentials(response.user));
+      } else {
+        console.error("Unexpected response format:", response);
+      }
+
+      // dispatch(setCredentials(response));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">

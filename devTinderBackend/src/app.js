@@ -1,6 +1,7 @@
 import express from "express";
 import connectDB from "./config/database.js";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 const app = express();
 app.use(express.json());
@@ -10,6 +11,12 @@ import authRouter from "./router/auth.router.js";
 import profileRouter from "./router/profile.router.js";
 import connectionsRouter from "./router/connections.router.js";
 import userRouter from "./router/user.router.js";
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use("/", connectionsRouter);
