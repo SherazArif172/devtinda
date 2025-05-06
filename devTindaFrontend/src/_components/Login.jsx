@@ -4,13 +4,15 @@ import loginSchema from "../validation/login";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLoginMutation } from "../redux/auth/authApiSlice";
 import { useDispatch } from "react-redux";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { setCredentials } from "../redux/auth/authslice";
 
 const Login = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(loginSchema),
@@ -27,11 +29,11 @@ const Login = () => {
       console.log("this is response", response.user);
       if (response?.user) {
         dispatch(setCredentials(response.user));
+        reset();
+        navigate("/", { replace: true });
       } else {
         console.error("Unexpected response format:", response);
       }
-
-      // dispatch(setCredentials(response));
     } catch (error) {
       console.log(error);
     }

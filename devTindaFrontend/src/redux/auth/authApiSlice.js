@@ -23,7 +23,13 @@ export const authApi = createApi({
       },
       invalidatesTags: [],
     }),
+    getUser: builder.query({
+      query: () => ({
+        url: "/me",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useLoginMutation } = authApi;
+export const { useLoginMutation, useGetUserQuery } = authApi;
