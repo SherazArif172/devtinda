@@ -18,6 +18,9 @@ export const authApi = createApi({
         method: "POST",
         body: credentials,
       }),
+      onQuerySuccess: (response) => {
+        console.log("Response message:", response.message);
+      },
       invalidatesTags: [],
     }),
   }),

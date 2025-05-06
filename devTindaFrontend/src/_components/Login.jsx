@@ -4,7 +4,7 @@ import loginSchema from "../validation/login";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLoginMutation } from "../redux/auth/authApiSlice";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { setCredentials } from "../redux/auth/authslice";
 
 const Login = () => {
@@ -16,15 +16,15 @@ const Login = () => {
     resolver: zodResolver(loginSchema),
   });
 
-  const [login, { isLoading }] = useLoginMutation();
+  const [login] = useLoginMutation();
   const dispatch = useDispatch();
 
   const onsubmit = async (data) => {
     try {
-      console.log(data);
+      console.log("this is before response", data);
 
       const response = await login(data).unwrap();
-      console.log(response);
+      console.log("this is response", response.user);
       if (response?.user) {
         dispatch(setCredentials(response.user));
       } else {
