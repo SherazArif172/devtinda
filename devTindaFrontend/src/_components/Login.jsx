@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import loginSchema from "../validation/login";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useLoginMutation } from "../redux/auth/authApiSlice";
+import { useLoginMutation } from "../redux/auth/authApi";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setCredentials } from "../redux/auth/authslice";
