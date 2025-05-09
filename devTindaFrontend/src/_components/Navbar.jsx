@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const user = useSelector((state) => state.auth.user);
-  console.log("user", user);
+  // console.log("user", user);
 
   return (
     <div className="navbar bg-base-100 shadow-sm">

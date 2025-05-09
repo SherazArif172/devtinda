@@ -7,11 +7,11 @@ const profileSlice = createSlice({
   },
   reducers: {
     profileReducer: (state, action) => {
-      state.user = action.payload.user;
+      state.user = action.payload;
     },
   },
 });
 
-export const { profileReducer } = profileSlice;
+export const { profileReducer } = profileSlice.actions;
 
 export default profileSlice.reducer;

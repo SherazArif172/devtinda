@@ -7,10 +7,12 @@ export const authApi = createApi({
     baseUrl: "http://localhost:3000",
     credentials: "include",
   }),
+
   prepareHeaders: (headers) => {
     headers.set("Content-Type", "application/json");
     return headers;
   },
+
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (credentials) => ({
@@ -18,9 +20,6 @@ export const authApi = createApi({
         method: "POST",
         body: credentials,
       }),
-      onQuerySuccess: (response) => {
-        console.log("Response message:", response.message);
-      },
       invalidatesTags: [],
     }),
     getUser: builder.query({

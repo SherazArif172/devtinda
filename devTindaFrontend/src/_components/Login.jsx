@@ -23,10 +23,10 @@ const Login = () => {
 
   const onsubmit = async (data) => {
     try {
-      console.log("this is before response", data);
+      // console.log("this is before response", data);
 
       const response = await login(data).unwrap();
-      console.log("this is response", response.user);
+      // console.log("this is response", response.user);
       if (response?.user) {
         dispatch(setCredentials(response.user));
         reset();
