@@ -11,6 +11,7 @@ export const store = configureStore({
     [profileApi.reducerPath]: profileApi.reducer,
     profile: profileReducer,
   },
+
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(authApi.middleware, profileApi.middleware),
 });
