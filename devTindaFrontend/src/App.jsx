@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { useGetProfileQuery } from "./redux/profile/profileApi";
 import { useDispatch, useSelector } from "react-redux";
 import { setCredentials, setLoading } from "./redux/auth/authslice";
+import Profile from "./_components/Profile";
 
 function App() {
   const dispatch = useDispatch();
@@ -28,6 +29,8 @@ function App() {
     }
   }, [data, profileLoading, dispatch]);
 
+  // logout
+
   return (
     <BrowserRouter>
       {!isLoading ? (
@@ -35,6 +38,12 @@ function App() {
           <Route
             path="/login"
             element={!isAuthenticated ? <Login /> : <Navigate to="/" replace />}
+          />
+          <Route
+            path="/signup"
+            element={
+              !isAuthenticated ? <Profile /> : <Navigate to="/signup" replace />
+            }
           />
           <Route
             path="/"

@@ -4,7 +4,7 @@ import loginSchema from "../validation/login";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLoginMutation } from "../redux/auth/authApi";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { setCredentials } from "../redux/auth/authslice";
 
 const Login = () => {
@@ -112,6 +112,16 @@ const Login = () => {
             >
               Sign in
             </button>
+          </div>
+          <div className="text-sm">
+            Don't have an account ?
+            <Link
+              to="/signup"
+              className="font-semibold text-indigo-600 hover:text-indigo-500"
+            >
+              {" "}
+              Signup
+            </Link>
           </div>
         </form>
       </div>

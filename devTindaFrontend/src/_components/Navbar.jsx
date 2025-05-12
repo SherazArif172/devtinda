@@ -1,10 +1,25 @@
 import React from "react";
 import { UserRound } from "lucide-react";
 import { useSelector } from "react-redux";
+// import { useNavigate } from "react-router-dom";
+// import { useDispatch } from "react-redux";
+import { useLogoutMutation } from "../redux/auth/authApi";
+// import { setCredentials } from "../redux/auth/authslice";
 
 const Navbar = () => {
+  // const navigate = useNavigate();
+
+  const [logout] = useLogoutMutation();
+  console.log(logout);
+
   const user = useSelector((state) => state.auth.user);
-  // console.log("user", user);
+
+  const handleLogout = async () => {
+    await logout();
+    // dispatch(setCredentials(data));
+    window.location.href = "/login";
+    console.log("whagt is this ");
+  };
 
   return (
     <div className="navbar bg-base-100 shadow-sm">
@@ -38,7 +53,7 @@ const Navbar = () => {
                 <a>Settings</a>
               </li>
               <li>
-                <a>Logout</a>
+                <a onClick={handleLogout}>Logout</a>
               </li>
             </ul>
           </div>
